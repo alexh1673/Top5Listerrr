@@ -25,8 +25,7 @@ export const GlobalStoreActionType = {
     MARK_LIST_FOR_DELETION: "MARK_LIST_FOR_DELETION",
     UNMARK_LIST_FOR_DELETION: "UNMARK_LIST_FOR_DELETION",
     SET_CURRENT_LIST: "SET_CURRENT_LIST",
-    SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE",
-    SET_LIST_NAME_EDIT_ACTIVE: "SET_LIST_NAME_EDIT_ACTIVE"
+    SET_ITEM_EDIT_ACTIVE: "SET_ITEM_EDIT_ACTIVE"
 }
 
 // WE'LL NEED THIS TO PROCESS TRANSACTIONS
@@ -233,15 +232,25 @@ function GlobalStoreContextProvider(props) {
         const response = await api.getTop5ListPairs(auth.user.email);
         if (response.data.success) {
             let pairsArray = response.data.idNamePairs;
+       
+            const thePairs = [];
+            for(let i = 0;i<pairsArray.length;i++)
+            {
+                let response1 = await api.getTop5ListById(pairsArray[i]._id);
+                thePairs.push(response1.data.top5List);
+            }
             storeReducer({
                 type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
-                payload: pairsArray
+                payload: thePairs
             });
+            console.log(this.idNamePairs)
         }
         else {
             console.log("API FAILED TO GET THE LIST PAIRS");
         }
+        
     }
+
 
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
@@ -296,20 +305,22 @@ function GlobalStoreContextProvider(props) {
                 history.push("/top5list/" + top5List._id);
             }
         }
-        store.unre()
+    }
+
+    store.getT5L = async function (id) {
+        let response = await api.getTop5ListById(id);
+        return response.data.top5List.items;
     }
 
     store.addMoveItemTransaction = function (start, end) {
         let transaction = new MoveItem_Transaction(store, start, end);
         tps.addTransaction(transaction);
-        store.unre()
     }
 
     store.addUpdateItemTransaction = function (index, newText) {
         let oldText = store.currentList.items[index];
         let transaction = new UpdateItem_Transaction(store, index, oldText, newText);
         tps.addTransaction(transaction);
-        store.unre()
     }
 
     store.moveItem = function (start, end) {
@@ -351,36 +362,10 @@ function GlobalStoreContextProvider(props) {
 
     store.undo = function () {
         tps.undoTransaction();
-        store.unre()
     }
 
     store.redo = function () {
         tps.doTransaction();
-        store.unre()
-    }
-
-    store.canUndo = function() {
-        return tps.hasTransactionToUndo();
-    }
-
-    store.canRedo = function() {
-        return tps.hasTransactionToRedo();
-    }
-
-    store.unre = function(){
-        let s = document.getElementById('undo-button')
-        s.classList.add("top5-button-disabled")
-        let r = document.getElementById('redo-button')
-        r.classList.add("top5-button-disabled")
-        if(tps.hasTransactionToRedo())
-        {
-            r.classList.remove("top5-button-disabled")
-        }
-        if(tps.hasTransactionToUndo())
-        {
-            s.classList.remove("top5-button-disabled")
-        }
-
     }
 
     // THIS FUNCTION ENABLES THE PROCESS OF EDITING A LIST NAME

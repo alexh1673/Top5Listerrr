@@ -6,32 +6,33 @@ import { GlobalStoreContext } from '../store/index.js'
 import ListItem from '@mui/material/ListItem';
 import { Box } from '@mui/system';
 
-function ListBox(props) {
+function CommentBox(props) {
     const {store} = useContext(GlobalStoreContext);
     console.log(props.idNamePair)
     let editItems = "";
     if(props.idNamePair){
         editItems = 
-            <List sx={{ width: '50%',height : "275px", bgcolor: 'navy' }}>
+            <List sx={{ width: '50%',height : "275px", bgcolor: 'blue' }}>
                 {
-                    props.idNamePair.items.map((item) => (
+                    props.idNamePair.comments.map((item) => (
                         <Box style={{
                             fontSize: '48pt',
                             width: '100%',
                             height: '55px',
                             back: 'black'
                         }}>
-                            {item}
+                            {item} nice guy
                         </Box>
                     ))
                 }
             </List>;
     }
-    return (
-        <div id="top5-ListBox">
-                {editItems}
+
+    return(
+        <div id="top5-CommentBox">
+            {editItems}
         </div>
     )
 }
 
-export default ListBox;
+export default CommentBox;

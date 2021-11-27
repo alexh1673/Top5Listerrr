@@ -121,6 +121,15 @@ body {
   background-color: var(--swatch-accent);
 }
 
+#top5-CommentBox {
+  position: absolute;
+  left: 50%;
+  bottom: 0%;
+  width: 100%;
+  height: 275px;
+  background-color: var(--swatch-accent);
+}
+
 #top5-statusbar {
   position: absolute;
   left: 0%;

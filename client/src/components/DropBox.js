@@ -5,15 +5,21 @@ import { Typography } from '@mui/material'
 import { GlobalStoreContext } from '../store/index.js'
 import { Box } from '@mui/system';
 import ListBox from './ListBox.js';
+import CommentBox from './CommentBox.js';
 
-function DropBox() {
+function DropBox(props) {
 
     const style = {
         height: "300px"
     };
 
     return(<Box style = {style}>
-        <ListBox/>
+        <ListBox
+            idNamePair = {props.idNamePair}
+        />
+        <CommentBox
+            idNamePair = {props.idNamePair}
+        />
     </Box>)
 }
 

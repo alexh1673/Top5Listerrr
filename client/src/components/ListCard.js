@@ -48,7 +48,6 @@ function ListCard(props) {
     async function handleDeleteList(event, id) {
         event.stopPropagation();
         store.markListForDeletion(id);
-
     }
 
     function handleKeyPress(event) {
@@ -62,7 +61,7 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
-    function open(event){
+    async function open(event){
         event.stopPropagation();
         let newDrop = !dropped;
         setdropActive(newDrop)
@@ -126,7 +125,9 @@ function ListCard(props) {
             <Box>
                 {cardElement}
             </Box>
-            {dropped?<DropBox/>:<div></div>}
+            {dropped?<DropBox
+                    idNamePair = {idNamePair}
+            />:<div></div>}
         </>
     );
 }
