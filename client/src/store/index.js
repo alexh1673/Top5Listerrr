@@ -360,6 +360,20 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.updateListPairs = async function (id) {
+        let i = 0
+        for(i = 0;i<store.idNamePairs.length;i++)
+        {
+            if(store.idNamePairs[i]._id == id)
+                break;
+        }
+
+        const response = await api.updateTop5ListById(id, store.idNamePairs[i]);
+        if (response.data.success) {
+           console.log(response.data)
+        }
+    }
+
     store.undo = function () {
         tps.undoTransaction();
     }

@@ -125,8 +125,8 @@ body {
   position: absolute;
   left: 50%;
   bottom: 0%;
-  width: 100%;
-  height: 275px;
+  width: 685px;
+  height: 300px;
   background-color: var(--swatch-accent);
 }
 
@@ -213,9 +213,9 @@ body {
 #workspace-edit {
   position: absolute;
   left: 0%;
-  top: 0%;
+  top: 10%;
   width: 100%;
-  height: 100%;
+  height: 90%;
 }
 
 #edit-numbering {
